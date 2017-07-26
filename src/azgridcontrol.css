@@ -1,0 +1,86 @@
+.col-xs-1-10,
+.col-sm-1-10 {
+  position: relative;
+  min-height: 1px;
+}
+
+.col-xs-1-10 {
+  width: 10%;
+  float: left;
+}
+
+@media (min-width: 768px) {
+  .col-sm-1-10 {
+    width: 10%;
+    float: left;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-md-1-10 {
+    width: 10%;
+    float: left;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-lg-1-10 {
+    width: 10%;
+    float: left;
+  }
+}
+
+.header-col {
+    display:inline-block;
+    font-size: 20px;
+    line-height: 26px;
+    background-color: #F0F0F0;
+    color:black;
+    height: 26px;
+    text-align: center;
+    border: 1 solid black;
+    cursor:pointer;
+}
+
+
+
+.normalCell {
+  border: 1 solid black;
+}
+
+.header-col a:hover {
+  text-decoration: none;
+  cursor:pointer;
+}
+
+.header-title {
+  background: rgb(233,177,138);
+  color: black;
+  height:26px;
+  line-height: 26px;
+  font-weight: 700;
+}
+
+.number {
+  text-align: center;
+  float:left;
+  width:50%;
+  line-height: 26px;
+}
+
+.odds {
+  width:50%;
+  float:right;
+  text-align: center;
+  line-height: 26px;
+  color: red;
+  font-weight: 700;
+}
+
+.data-group-item {
+  display:-moz-inline-box;
+  display:inline-block;
+  width: 60px;
+  text-align: center;
+  cursor:pointer;
+}
