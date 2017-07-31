@@ -8,10 +8,10 @@
     }
 
     function AZGridOptions() {
-        this.highlightColor = '#F00';
-        this.backgroundColor = '#FFF';
-        this.odds = 0;
-        this.dataGroupIndex = 0;
+        this.backgroundColor = '#FFF'; // 背影颜色
+        this.odds = 0; // 赔率
+        this.dataGroupIndex = 0; // 显示的数据序号，可选值0-7
+        this.onConfirmCallback = null; // 用户点击确定函数后的回调函数
     }
 
     function generateData1(odds) {
@@ -323,7 +323,7 @@
                 var cell = $("<div id='numberCell" + i + "-" + j + "' class='col-xs-1-10 col-sm-1-10 col-md-1-10 col-lg-1-10 header-col'>" + 
                         "</div>");
                 var cellContent = $("<div style='color:black'>" +
-                        "<span class='number'>" + cellData.number + "</span>" +
+                        "<span id='numberCellSpanItem' class='number'>" + cellData.number + "</span>" +
                         "<span class='odds'>" + cellData.odds + "</span>" + 
                         "</div>");
 
@@ -344,7 +344,7 @@
         // $(quickSearchBarRow).append(quickSearchLeftSideBar);
         var quickSearchBarSubRow = $("<div class='col-md-12 col-offset-20'>");
         var quickSelectBar = $(
-        "<div class='col-md-1 quick-search-bar' style='height:54px;verticle-align:center;text-align:center;'>定位置</div>" +
+        "<div class='col-md-1 quick-search-bar' style='line-height:54px;height:54px;text-align:center;'><span style='line-height:54px;display:inline-block;'>定位置</span></div>" +
         "<div class='col-md-6 quick-search-bar'>" +
             "<div class='container'>" + 
                 "<div class='row'>" +
@@ -383,12 +383,12 @@
                 "</div>" +
             "</div>" +
         "</div>" +
-        "<div class='col-md-5 quick-search-bar' style='height:54px'>" +
-            "<span>金额</span>" +
-            "<input style='width:60px'></input>" +
-            "<input type='check' title='除重'>除重</input>" +
-            "<button type='button'>确定</button>" +
-            "<button type='button'>取消</button>" +
+        "<div class='col-md-5 quick-search-bar' style='height:54px;line-height:54px; display: table-cell;vertical-align: middle;'>" +
+            "<span  style='line-height:54px;vertical-align:middle;margin-right:4px;'>金额</span>" +
+             "<input id='moneyPerNumber' name='moneyPerNumber' type='text' style='color:red;size:5pt;width:60px;height:24px;line-height:24px;vertical-align:middle;margin-right: 8px;padding: 0'></input>" +
+            "<label style='margin-right:8px;'><input type='checkbox'/> 去重</label>" +
+            "<button id='submitOrderBtn' type='button' class='btn btn-default btn-xs' style='margin-right:8px;'>确定</button>" +
+            "<button type='button' class='btn btn-default btn-xs'>取消</button>" +
         "</div>");
 
         $(quickSearchBarSubRow).append(quickSelectBar);
@@ -397,6 +397,25 @@
         $(contentNode).append(quickSearchBarRow);
 
         $(container).append(contentNode);
+
+        $('#submitOrderBtn').bind('click', function() {
+            if (weakThis.options.onConfirmCallback != null && weakThis.options.onConfirmCallback != undefined) {
+                var allSelectedCells = $('.header-col-highlight');
+                var choosedNumbers = new Array();
+                for (var j = 0; j < allSelectedCells.length; j++) {
+                    var cell = allSelectedCells[j];
+                    var numberSpan = $(cell).find('span[id^="numberCellSpanItem"]');
+                    var n = $(numberSpan);
+                    choosedNumbers.push(numberSpan.text());
+                }
+
+                var money = parseInt($('#moneyPerNumber').val());
+                weakThis.options.onConfirmCallback(choosedNumbers, money);
+            }
+        });
+
+        $('#moneyPerNumber').keyup(onlyIntegerKeyUp);
+        $('#moneyPerNumber').keypress(onlyIntegerKeyPress);
 
         if (this.options.dataGroupIndex == 7) {
             $("#quick-select-1-tip").text('首');

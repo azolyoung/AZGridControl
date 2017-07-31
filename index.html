@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="src/font-awesome.min.css">
     <script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="src/azgridcontrol.js"></script> 
+    <script type="text/javascript" src="src/numberinput.js"></script> 
     
 </head>
 
@@ -18,7 +19,10 @@
 
     <script>
         $(document).ready(function() {
-            AZGridControl($("#bettingContainer"), {highlightColor:"#F0F", backgroundColor:"#F0F0F0", odds:66, dataGroupIndex:1});
+            var onConfirmCallback = function(numbers, money) {
+                alert(JSON.stringify({money:money, numbers:numbers}));
+            };
+            AZGridControl($("#bettingContainer"), {onConfirmCallback:onConfirmCallback, backgroundColor:"#F0F0F0", odds:66, dataGroupIndex:1});
         });
     </script>
 </body>
